@@ -35,7 +35,5 @@ public class CameraController : MonoBehaviour
 
         // 現在地点→目指すべき地点までの補完
         transform.position = Vector3.Lerp(nowPos, nextPos, followSpeed * Time.deltaTime);
-        Debug.Log(nextPos.x.ToString());
-        Debug.Log(nextPos.y.ToString());
     }
 }
