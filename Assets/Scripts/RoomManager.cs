@@ -87,4 +87,5 @@ public class RoomManager : MonoBehaviour
             // どのスポット番号がどのアイテムに割り当てられているのかを記録
             // 生成したアイテムに識別番号を割り振っていく
         }
+    }
 }
