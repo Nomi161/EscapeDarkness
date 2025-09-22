@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Globalization;
+using UnityEditor.Tilemaps;
+using UnityEngine;
 
 public class RoomManager : MonoBehaviour
 {
@@ -8,6 +10,8 @@ public class RoomManager : MonoBehaviour
 
     public GameObject[] items = new GameObject[5];  // ５つのアイテムプレハブの内訳
     public GameObject room;                         // ドアのプレハブ
+    public MessageData[] messages;                  // 配置したドアに割り振るScriptableObjectの配列
+
     public GameObject dummyDoor;                    // ダミードアのプレハブ
     public GameObject key;                          // キーのプレハブ
 
@@ -24,7 +28,8 @@ public class RoomManager : MonoBehaviour
         if (!positioned)    // 初期配置がまだ
         {
             StartKeysPosition();    // キーの初回配置
-            StartItemsPosition();   // アイテムの初期配置
+            StartItemsPosition();   // アイテムの初回配置
+            StartDoorsPosition();   // ドアの初回配置
             positioned = true;      // 初回配置は済み
         }
     }
@@ -86,6 +91,53 @@ public class RoomManager : MonoBehaviour
             // 一致していれば、そこにアイテムを生成
             // どのスポット番号がどのアイテムに割り当てられているのかを記録
             // 生成したアイテムに識別番号を割り振っていく
+        }
+    }
+
+    void StartDoorsPosition()
+    {
+        // 全スポットの取得
+        GameObject[] roomSpots = GameObject.FindGameObjectsWithTag("RoomSpot");
+
+        // 出入り口(鍵1～鍵3の3つの出入り口)の分だけ繰り返し
+        for (int i = 0; i < doorsPositionNumber.Length; i++)
+        {
+            int rand;       // ランダムな数の受け皿
+            bool unique;    // 重複していないかのフラグ
+
+            do
+            {
+                unique = true;  // 問題なければそのままループを抜ける予定
+                rand = Random.Range(1, (roomSpots.Length + 1)); // 1晩からスポット数の番号をランダムで取得
+
+                // すでにランダムに取得した番号がどこかのスポットとして割り当てられていないか、doorsPositionNumber配列の状況を全点検
+                foreach (int numbers in doorsPositionNumber)
+                {
+                    // 取り出した情報とランダム番号が一致していたら重複したということになる
+                    if (numbers == rand)
+                    {
+                        unique = false; // 唯一のユニークな物では無い
+                        break;
+                    }
+                }
+            } while (!unique);
+
+            // 全スポットを見回りしてrandと同じスポットを探す
+            foreach (GameObject spots in roomSpots)
+            {
+                if (spots.GetComponent<RoomSpot>().spotNum == rand)
+                {
+                    // ルームを生成
+                    GameObject obj = Instantiate(
+                        room,
+                        spots.transform.position,
+                        Quaternion.identity
+                        );
+
+                    // 何番スポットが選ばれたのかstatic変数に記憶していく
+                    doorsPositionNumber[i] = rand;
+                }
+            }
         }
     }
 }
