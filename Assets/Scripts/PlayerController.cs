@@ -218,4 +218,10 @@ public class PlayerController : MonoBehaviour
         rbody.AddForce(new Vector2(0, 5), ForceMode2D.Impulse); // 上に跳ね上げる
         Destroy(gameObject, 1.0f);              // 1秒後に存在を消去
     }
+
+    // スポットライトの入手フラグが立っていたらライトをつける
+    public void SpotLightCheck()
+    {
+        if (GameManager.hasSpotLight) spotLight.SetActive(true);
+    }
 }
