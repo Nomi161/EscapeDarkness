@@ -1,4 +1,4 @@
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,8 +24,10 @@ public class UIController : MonoBehaviour
         currentKey3Count = GameManager.key3; //初期設定
         currentBillCount = GameManager.bill; //初期設定
         currentHPCount = GameManager.playerHP; //初期設定
-
-        key1Text.text = currentKey1Count.ToString(); //UIに反映
+        if (key1Text == null) Debug.Log("key1Text == null");
+        if (key2Text == null) Debug.Log("key2Text == null");
+        key1Text.text = "10";
+//        key1Text.text = currentKey1Count.ToString(); //UIに反映
         key2Text.text = currentKey2Count.ToString(); //UIに反映
         key3Text.text = currentKey3Count.ToString(); //UIに反映
         billText.text = currentBillCount.ToString(); //UIに反映

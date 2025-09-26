@@ -7,6 +7,8 @@ public class BarrierController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        SoundManager.instance.SEPlay(SEType.Barrier); // バリアが発生した音
+
         // deleteTime秒後に消滅
         Destroy(gameObject, deleteTime);    
     }

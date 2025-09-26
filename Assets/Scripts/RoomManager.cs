@@ -20,6 +20,7 @@ public class RoomManager : MonoBehaviour
     public static string toRoomNumber = "fromRoom1";    // Playerが配置されるべき位置
 
     GameObject player;  // プレイヤーの情報
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -38,6 +39,8 @@ public class RoomManager : MonoBehaviour
             LoadKeysPosition();    // キーの配置の再現
             LoadItemsPosition();   // アイテムの配置の再現
             LoadDoorsPosition();   // ドアの配置の再現
+
+            PlayerPosition();       // プレイヤーの配置
         }
     }
 
@@ -323,7 +326,7 @@ public class RoomManager : MonoBehaviour
         for (int i = 0; i < items.Length; i++)
         {
             // まだアイテムが未取得ならばアイテムを生成する
-            if (!GameManager.keysPickedState[i])
+            if (!GameManager.itemsPickedState[i])
             {
                 // スポットの全チェック（オブジェクトの値とスポット番号の一致）
                 // 一致していれば、そこにアイテムを生成
@@ -418,4 +421,34 @@ public class RoomManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// プレイヤーの配置 
+    /// </summary>
+    void PlayerPosition()
+    {
+        GameObject[] roomDatas = GameObject.FindGameObjectsWithTag("Room");
+
+        foreach (GameObject room in roomDatas)
+        {
+            // それぞれのRoomのRoomDataスクリプトの情報を変数rに代入
+            RoomData r = room.GetComponent<RoomData>();
+
+            // 取得してきたRoomの識別名が「今目標にしている行先」の識別名（static変数）とおなじなら
+            if (r.roomName == toRoomNumber)
+            {
+                float posY = 1.5f;  // 最初は対象となるRoomの上座標
+                if (r.direction == DoorDirection.down)
+                {
+                    posY = -1.5f;   // もしdirectionがdown設定のRoomならプレイヤーの位置は下側になる
+                }
+
+                // プレイヤーの位置を決める
+                player.transform.position = new Vector2(
+                    room.transform.position.x,
+                    room.transform.position.y + posY
+                    );
+                break;  // 目的のRoomが見つかって、チェックの必要がなくなったのでforeachを中断
+            }
+        }
+    }
 }

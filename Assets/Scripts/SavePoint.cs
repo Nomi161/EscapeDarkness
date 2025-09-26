@@ -1,15 +1,15 @@
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using System.Collections;
 
-public class SavaPoint : MonoBehaviour
+public class SavePoint : MonoBehaviour
 {
-    bool isPlayerInRange; //プレイヤーが領域に入ったかどうか
-    bool isTalk; //トークが開始されたかどうか
-    GameObject canvas; //トークUIを含んだCanvasオブジェクト
-    GameObject talkPanel; //対象となるトークUIパネル
-    TextMeshProUGUI nameText; //対象となるトークUIパネルの名前
-    TextMeshProUGUI messageText; //対象となるトークUIパネルのメッセージ
+    bool isPlayerInRange;           //プレイヤーが領域に入ったかどうか
+    bool isTalk;                    //トークが開始されたかどうか
+    GameObject canvas;              //トークUIを含んだCanvasオブジェクト
+    GameObject talkPanel;           //対象となるトークUIパネル
+    TextMeshProUGUI nameText;       //対象となるトークUIパネルの名前
+    TextMeshProUGUI messageText;    //対象となるトークUIパネルのメッセージ
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

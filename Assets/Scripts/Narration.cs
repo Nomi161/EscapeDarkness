@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,6 +7,8 @@ public class Narration : MonoBehaviour
 {
     public MessageData message;
     public TextMeshProUGUI messageText;
+
+    public bool isEnding;   // エンディングシーンで使われるかどうか
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -32,7 +34,14 @@ public class Narration : MonoBehaviour
 
         yield return new WaitForSeconds(3.0f);
 
-        SceneManager.LoadScene("Main");
+        if (!isEnding)
+        {
+            SceneManager.LoadScene("Main");
+        }
+        else
+        {
+            SceneManager.LoadScene("Title");
+        }
 
     }
 

@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 // プレイヤーが出てきた時の方向
 public enum DoorDirection
 {
-    up,
-    down
+    up,     // 上方
+    down    // 下方
 }
 public class RoomData : MonoBehaviour
 {
@@ -17,6 +17,9 @@ public class RoomData : MonoBehaviour
     public DoorDirection direction; // プレイヤーの配置位置
     public MessageData message;     // トークデータ
     public GameObject door;         // 表示/非表示対象のドア情報
+
+    public bool isSavePoint;        // セーブポイントに使われるスクリプトにするかどうか
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -31,8 +34,8 @@ public class RoomData : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // 相手がプレイヤーなら
-        if (collision.gameObject.CompareTag("Player"))
+        // 相手がプレイヤーかつ自分がセーブポイントでなければ
+        if (collision.gameObject.CompareTag("Player") && !isSavePoint)
         {
             ChangeScene();
         }
